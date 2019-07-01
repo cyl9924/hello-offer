@@ -1,0 +1,39 @@
+/*
+交换m和n的值
+*/
+    int m = 12;
+    int n = 5;
+    m = m ^ n;
+    n = m ^ n; //(m^n)^n=m
+    m = m ^ n; //(m^n)^m=m
+ 
+ //使用冒泡排序使数组元素从小到大排列
+	for (int i = 0; i < arr.length - 1; i++) {
+			for (int j = 0; j < arr.length - 1 - i; j++) {
+				if (arr[j] > arr[j + 1]) {
+					int temp = arr[j];
+					arr[j] = arr[j + 1];
+					arr[j + 1] = temp;
+				}
+			}
+		}
+//使用直接选择排序使数组元素从小到大排列
+		for(int i = 0; i < arr.length - 1; i++){
+			int t = i;//默认i处是最小的
+			for(int j = i;j < arr.length;j++){
+				//一旦在i后发现存在比其小的元素，就记录那个元素的下角标
+				if(arr[t] > arr[j]){
+					t = j;
+				}
+			}
+			if(t != i){
+				int temp = arr[t];
+				arr[t] = arr[i];
+				arr[i] = temp;
+			}
+	}
+
+//还可以调用：Arrays工具类：Arrays.sort(arr);
+
+ 
+ 
