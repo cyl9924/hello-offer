@@ -1,0 +1,12 @@
+/*
+交换m和n的值
+*/
+class A{
+public static void main(Stirng[] args){
+    int m = 12;
+    int n = 5;
+    m = m ^ n;
+    n = m ^ n; //(m^n)^n=m
+    m = m ^ n; //(m^n)^m=m
+    }
+}
