@@ -1,0 +1,64 @@
+1.多态性的表现：1.方法的重载与重写  2.子类对象的多态性
+2.使用的前提：1.要有继承关系 2.要有方法的重写
+3.格式：Person p = new Man();//向上转型
+            // 虚拟方法调用：通过父类的引用指向子类的对象实体，当调用方法时，实际执行的是子类重写父类的方法
+	    p1.eat();
+	    p1.walk();
+	   // p1.entertainment();
+	
+4.>编译时，认为p是Person类型的，故只能执行Person里才有的结构，即Man里特有的结构不能够调用
+  >子类对象的多态性，并不使用于属性。
+
+5.关于向下转型：
+  1.向下转型,使用强转符：()
+  2.为了保证不报ClassCastException，最好在向下转型前，进行判断： instanceof
+	// 若a是A类的实例，那么a也一定是A类的父类的实例。
+		if (p1 instanceof Woman) {
+			System.out.println("hello!");
+			Woman w1 = (Woman) p1;
+			w1.shopping();
+		}
+
+		if (p1 instanceof Man) {
+			Man m1 = (Man) p1;
+			m1.entertainment();
+		}
+
+
+object
+1.java.lang.Object 类，是所有类的根父类！
+
+2.Object类仅有一个空参的构造器  public Object(){  }
+
+3.关于方法：
+1️⃣ equals(Object obj)
+
+  public boolean equals(Object obj) {
+        return (this == obj);
+   }
+
+// ==
+// 1.基本数据类型：根据基本数据类型的值判断是否相等。相等返回true，反之返回false
+// 注：两端数据类型可以不同，在不同的情况下，也可以返回true。
+// 2.引用数据类型：比较引用类型变量的地址值是否相等。
+
+//equals():
+1.只能处理引用类型变量②在Object类，发现equals()仍然比较的两个引用变量的地址值是否相等
+>像String 包装类 File类 Date类这些重写Object类的equals()方法，比较是两个对象的
+//"实体内容"是否完全相同。
+>若我们自定义一个类，希望比较两个对象的属性值都相同的情况下返回true的话，就需要重写Object类的
+ equals(Object obj)方法
+
+2️⃣toString()方法
+当我们输出一个对象的引用时，会调用toString()方法。
+
+1.public String toString() {
+        return getClass().getName() + "@" + Integer.toHexString(hashCode());
+    }
+当我们没有重写Object类的toString()方法时，打印的就是对象所在的类，以及对象实体在堆空间的位置
+2.一般我们需要重写Object类的toString()方法，将此对象的各个属性值返回。
+3.像String类、Date、File类、包装类都重写了toString()方法。
+
+
+
+
