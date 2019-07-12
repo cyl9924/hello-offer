@@ -1,0 +1,40 @@
+ * 类的第5个成员：内部类
+ * 1.相当于说，我们可以在类的内部再定义类。外面的类：外部类。里面定义的类：内部类
+ * 2.内部类的分类：成员内部类（声明在类内部且方法外的）  vs 局部内部类(声明在类的方法里)
+ * 3.成员内部类：
+ * 		3.1是外部类的一个成员：1.可以有修饰符（4个）2.static final 3.可以调用外部类的属性、方法
+ * 			
+ * 		3.2具体类的特点：①abstract ②还可以在其内部定义属性、方法、构造器
+ * 
+ * 4.局部内部类：
+ * 
+ * 5.关于内部类，要掌握三点：
+ *   1.如何创建成员内部类的对象（如：创建Bird类和Dog类的对象）
+ *   2.如何区分调用外部类、内部类的变量(尤其是变量重名时)
+ *   3.局部内部类的使用 （见TestInnerClass1.java）
+
+
+public class TestInnerclass {
+	TestInnerclass t = new TestInnerclass();
+	//创建静态内部类的对象，可以直接通过外部类调用静态内部类的构造器
+	Person.Dog d = new Person.Dog();
+	//创建非静态的内部类的对象，必须先创建外部类的对象，再通过外部类的对象调用内部类的构造器
+	Person p = new Person();
+	Person.Bird b = p.new Bird();
+}
+
+class Person{
+	String name = "小菜";
+	int age;
+	
+	class Bird{
+	}
+	
+	static class Dog{
+	}
+	
+	public void method1() {
+		class A{
+		}
+	}
+}
