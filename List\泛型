@@ -1,0 +1,317 @@
+(List集合的特有功能概述和测试)
+* A:List集合的特有功能概述
+	* void add(int index,E element)
+	* E remove(int index)
+	* E get(int index)
+	* E set(int index,E element)
+
+(List集合存储学生对象并遍历)
+* A:案例演示
+	* 通过size()和get()方法结合使用遍历。
+
+			List list = new ArrayList();
+			list.add(new Student("张三", 18));
+			list.add(new Student("李四", 18));
+			list.add(new Student("王五", 18));
+			list.add(new Student("赵六", 18));
+			
+			for(int i = 0; i < list.size(); i++) {
+				Student s = (Student)list.get(i);
+				System.out.println(s.getName() + "," + s.getAge());
+			}
+
+(并发修改异常产生的原因及解决方案)
+* A:案例演示
+	* 需求：我有一个集合，请问，我想判断里面有没有"world"这个元素，如果有，我就添加一个"javaee"元素，请写代码实现。
+
+			List list = new ArrayList();
+			list.add("a");
+			list.add("b");
+			list.add("world");
+			list.add("d");
+			list.add("e");
+			
+			/*Iterator it = list.iterator();
+			while(it.hasNext()) {
+				String str = (String)it.next();
+				if(str.equals("world")) {
+					list.add("javaee");			//这里会抛出ConcurrentModificationException并发修改异常
+				}
+			}*/
+			
+			
+* B:ConcurrentModificationException出现
+	* 迭代器遍历，集合修改集合
+* C:解决方案
+	* a:迭代器迭代元素，迭代器修改元素(ListIterator的特有功能add)
+	* b:集合遍历元素，集合修改元素
+
+			ListIterator lit = list.listIterator();		//如果想在遍历的过程中添加元素,可以用ListIterator中的add方法
+			while(lit.hasNext()) {
+				String str = (String)lit.next();
+				if(str.equals("world")) {
+					lit.add("javaee");	
+					//list.add("javaee");
+				}
+			}
+
+(ListIterator)(了解)
+* boolean hasNext()是否有下一个
+* boolean hasPrevious()是否有前一个
+* Object next()返回下一个元素
+* Object previous();返回上一个元素
+
+(Vector的特有功能)(了解)
+* A:Vector类概述
+* B:Vector类特有功能
+	* public void addElement(E obj)
+	* public E elementAt(int index)
+	* public Enumeration elements()
+* C:案例演示	
+	* Vector的迭代
+
+			Vector v = new Vector();				//创建集合对象,List的子类
+			v.addElement("a");
+			v.addElement("b");
+			v.addElement("c");
+			v.addElement("d");
+			
+			//Vector迭代
+			Enumeration en = v.elements();			//获取枚举
+			while(en.hasMoreElements()) {			//判断集合中是否有元素
+				System.out.println(en.nextElement());//获取集合中的元素
+			}
+
+(数据结构之数组和链表)
+* A:数组
+	* 查询快修改也快
+	* 增删慢
+* B:链表
+	* 查询慢,修改也慢
+	* 增删快
+(List的三个子类的特点)
+* A:List的三个子类的特点
+* 
+		ArrayList:
+			底层数据结构是数组，查询快，增删慢。
+			线程不安全，效率高。
+		Vector:
+			底层数据结构是数组，查询快，增删慢。
+			线程安全，效率低。
+		Vector相对ArrayList查询慢(线程安全的)
+		Vector相对LinkedList增删慢(数组结构)
+		LinkedList:
+			底层数据结构是链表，查询慢，增删快。
+			线程不安全，效率高。
+
+		Vector和ArrayList的区别
+			Vector是线程安全的,效率低
+			ArrayList是线程不安全的,效率高
+		共同点:都是数组实现的
+		ArrayList和LinkedList的区别
+			ArrayList底层是数组结果,查询和修改快
+			LinkedList底层是链表结构的,增和删比较快,查询和修改比较慢
+		共同点:都是线程不安全的
+* B:List有三个儿子，我们到底使用谁呢?
+		查询多用ArrayList
+		增删多用LinkedList
+		如果都多ArrayList
+    
+(去除ArrayList中重复字符串元素方式)(掌握)
+* A:案例演示
+	* 需求：ArrayList去除集合中字符串的重复值(字符串的内容相同)
+	* 思路：创建新集合方式
+
+			/**
+			 *  A:案例演示
+			 * 需求：ArrayList去除集合中字符串的重复值(字符串的内容相同)
+			 * 思路：创建新集合方式
+			 */
+			public static void main(String[] args) {
+				ArrayList list = new ArrayList();
+				list.add("a");
+				list.add("a");
+				list.add("b");
+				list.add("b");
+				list.add("b");
+				list.add("c");
+				list.add("c");
+				list.add("c");
+				list.add("c");
+				
+				System.out.println(list);
+				ArrayList newList = getSingle(list);
+				System.out.println(newList);
+			}
+		
+			/*
+			 * 去除重复
+			 * 1,返回ArrayList
+			 * 2,参数列表ArrayList
+			 */
+			public static ArrayList getSingle(ArrayList list) {
+				ArrayList newList = new ArrayList();			//创建一个新集合
+				Iterator it = list.iterator();					//获取迭代器
+				while(it.hasNext()) {							//判断老集合中是否有元素
+					String temp = (String)it.next();			//将每一个元素临时记录住
+					if(!newList.contains(temp)) {				//如果新集合中不包含该元素
+						newList.add(temp);						//将该元素添加到新集合中
+					}
+				}
+				return newList;									//将新集合返回
+			}
+(去除ArrayList中重复自定义对象元素)(掌握)
+* A:案例演示
+	* 需求：ArrayList去除集合中自定义对象元素的重复值(对象的成员变量值相同)
+* B:注意事项
+	* 重写equals()方法的
+
+(LinkedList的特有功能)(掌握)
+* A:LinkedList类概述
+* B:LinkedList类特有功能
+	* public void addFirst(E e)及addLast(E e)
+	* public E getFirst()及getLast()
+	* public E removeFirst()及public E removeLast()
+	* public E get(int index);
+
+(栈和队列数据结构)(掌握)
+* 栈
+	* 先进后出 
+* 队列
+	* 先进先出
+
+(用LinkedList模拟栈数据结构的集合并测试)(掌握)
+* A:案例演示
+	* 需求：请用LinkedList模拟栈数据结构的集合，并测试
+	* 创建一个类将Linked中的方法封装
+	* 
+			public class Stack {
+				private LinkedList list = new LinkedList();		//创建LinkedList对象
+				
+				public void in(Object obj) {
+					list.addLast(obj);							//封装addLast()方法
+				}
+				
+				public Object out() {
+					return list.removeLast();					//封装removeLast()方法
+				}
+				
+				public boolean isEmpty() {
+					return list.isEmpty();						//封装isEmpty()方法
+				}
+			}
+	
+
+(泛型概述和基本使用)(掌握)
+* A:泛型概述
+* B:泛型好处
+	* 提高安全性(将运行期的错误转换到编译期) 
+	* 省去强转的麻烦
+* C:泛型基本使用
+	* <>中放的必须是引用数据类型 
+* D:泛型使用注意事项
+	* 前后的泛型必须一致,或者后面的泛型可以省略不写(1.7的新特性菱形泛型)  
+
+(ArrayList存储字符串和自定义对象并遍历泛型版)(掌握)
+* A:案例演示
+	* ArrayList存储字符串并遍历泛型版
+
+(泛型的由来)(了解)
+* A:案例演示
+	* 泛型的由来:通过Object转型问题引入
+	* 早期的Object类型可以接收任意的对象类型，但是在实际的使用中，会有类型转换的问题。也就存在这隐患，所以Java提供了泛型来解决这个安全问题。
+
+(泛型类的概述及使用)(了解)
+* A:泛型类概述<T>
+	* 把泛型定义在类上
+* B:定义格式
+	* public class 类名<泛型类型1,…>
+* C:注意事项	
+	* 泛型类型必须是引用类型
+* D:案例演示
+	* 泛型类的使用
+
+(泛型方法的概述和使用)(了解)
+* A:泛型方法概述
+	* 把泛型定义在方法上
+* B:定义格式	
+	* public <泛型类型> 返回类型 方法名(泛型类型 变量名)
+* C:案例演示
+	* 泛型方法的使用
+
+(泛型接口的概述和使用)(了解)
+* A:泛型接口概述
+	* 把泛型定义在接口上
+* B:定义格式	
+	* public interface 接口名<泛型类型>
+* C:案例演示
+	* 泛型接口的使用
+
+(泛型高级之通配符)(了解)
+* A:泛型通配符<?>
+	* 任意类型，如果没有明确，那么就是Object以及任意的Java类了
+* B:? extends E
+	* 向下限定，E及其子类
+* C:? super E
+	* 向上限定，E及其父类
+
+
+(增强for的概述和使用)(掌握)
+* A:增强for概述
+	* 简化数组和Collection集合的遍历
+* B:格式：
+* 
+		for(元素数据类型 变量 : 数组或者Collection集合) {
+			使用变量即可，该变量就是元素
+		}
+* C:案例演示
+	* 数组，集合存储元素用增强for遍历
+* D:好处
+	* 简化遍历
+
+
+(ArrayList存储字符串和自定义对象并遍历增强for版)(掌握)
+* A:案例演示
+	* ArrayList存储字符串并遍历增强for版
+	* 
+			ArrayList<String> list = new ArrayList<>();
+			list.add("a");
+			list.add("b");
+			list.add("c");
+			list.add("d");
+			
+			for(String s : list) {
+				System.out.println(s);
+			}
+(三种迭代的能否删除)(掌握)
+* 普通for循环,可以删除,但是索引要--
+* 迭代器,可以删除,但是必须使用迭代器自身的remove方法,否则会出现并发修改异常
+* 增强for循环不能删除
+
+(静态导入的概述和使用)(了解)
+* A:静态导入概述
+* B:格式：
+	* import static 包名….类名.方法名;
+	* 可以直接导入到方法的级别
+* C:注意事项
+	* 方法必须是静态的,如果有多个同名的静态方法，容易不知道使用谁?
+	这个时候要使用，必须加前缀。由此可见，意义不大，所以一般不用，但是要能看懂。
+
+(可变参数的概述和使用)(掌握)
+* A:可变参数概述
+	* 定义方法的时候不知道该定义多少个参数
+* B:格式
+	* 修饰符 返回值类型 方法名(数据类型…  变量名){}
+* C:注意事项：
+	* 这里的变量其实是一个数组
+	* 如果一个方法有可变参数，并且有多个参数，那么，可变参数肯定是最后一个
+
+(Arrays工具类的asList()方法的使用)(掌握)
+* A:案例演示
+	* Arrays工具类的asList()方法的使用
+	* Collection中toArray(T[] a)泛型版的集合转数组
+
+(集合嵌套之ArrayList嵌套ArrayList)(掌握)
+* A:案例演示
+	* 集合嵌套之ArrayList嵌套ArrayList
+
