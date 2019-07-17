@@ -1,0 +1,63 @@
+(正则表达式的分割功能)
+* A:正则表达式的分割功能
+	* String类的功能：public String[] split(String regex)
+* B:案例演示
+	* 正则表达式的分割功能
+
+(把给定字符串中的数字排序)
+* A:案例演示
+	* 需求：我有如下一个字符串:”91 27 46 38 50”，请写代码实现最终输出结果是：”27 38 46 50 91”
+
+(正则表达式的替换功能)
+* A:正则表达式的替换功能
+	* String类的功能：public String replaceAll(String regex,String replacement)
+* B:案例演示
+	* 正则表达式的替换功能
+
+(正则表达式的分组功能)
+* A:正则表达式的分组功能
+	* 捕获组可以通过从左到右计算其开括号来编号。例如，在表达式 ((A)(B(C))) 中，存在四个这样的组： 
+* 
+		1     ((A)(B(C))) 
+		2     (A 
+		3     (B(C)) 
+		4     (C) 
+	
+		组零始终代表整个表达式。
+* B:案例演示
+	a:切割
+		需求：请按照叠词切割： "sdqqfgkkkhjppppkl";
+	b:替换
+		需求：我我....我...我.要...要要...要学....学学..学.编..编编.编.程.程.程..程
+		将字符串还原成:“我要学编程”。
+
+
+（Pattern和Matcher的概述)
+* A:Pattern和Matcher的概述
+* B:模式和匹配器的典型调用顺序
+	* 通过JDK提供的API，查看Pattern类的说明
+
+	* 典型的调用顺序是 
+	* Pattern p = Pattern.compile("a*b");
+	* Matcher m = p.matcher("aaaaab");
+	* boolean b = m.matches();
+
+(正则表达式的获取功能)
+* A:正则表达式的获取功能
+	* Pattern和Matcher的结合使用
+* B:案例演示
+	* 需求：把一个字符串中的手机号码获取出来
+  
+  难点：".*?(?=\\()"
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+class RegExpTest {
+    public static void main(String[] args) {
+        String str = "成都市(成华区)(武侯区)(高新区)";
+        Pattern p = Pattern.compile(".*?(?=\\()");
+        Matcher m = p.matcher(str);
+        if(m.find()) {
+            System.out.println(m.group());
+        }
+    }
+}
