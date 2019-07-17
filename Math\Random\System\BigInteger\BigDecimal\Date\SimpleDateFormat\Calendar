@@ -1,0 +1,139 @@
+(Math类概述和方法使用)
+* A:Math类概述
+	* Math 类包含用于执行基本数学运算的方法，如初等指数、对数、平方根和三角函数。 
+* B:成员方法
+	* public static int abs(int a)
+	* public static double ceil(double a)
+	* public static double floor(double a)
+	* public static int max(int a,int b) min自学
+	* public static double pow(double a,double b)
+	* public static double random()
+	* public static int round(float a) 参数为double的自学
+	* public static double sqrt(double a)
+
+(Random类的概述和方法使用)
+* A:Random类的概述
+	* 此类用于产生随机数如果用相同的种子创建两个 Random 实例，
+	* 则对每个实例进行相同的方法调用序列，它们将生成并返回相同的数字序列。
+* B:构造方法
+	* public Random()
+	* public Random(long seed)
+* C:成员方法
+	* public int nextInt()
+	* public int nextInt(int n)(重点掌握)
+
+(System类的概述和方法使用)
+* A:System类的概述
+	* System 类包含一些有用的类字段和方法。它不能被实例化。 
+* B:成员方法
+	* public static void gc()
+	* public static void exit(int status)
+	* public static long currentTimeMillis()
+	* pubiic static void arraycopy(Object src, int srcPos, Object dest, int destPos, int length) 
+* C:案例演示
+	* System类的成员方法使用
+
+(BigInteger类的概述和方法使用)
+* A:BigInteger的概述
+	* 可以让超过Integer范围内的数据进行运算
+* B:构造方法
+	* public BigInteger(String val)
+* C:成员方法
+	* public BigInteger add(BigInteger val)
+	* public BigInteger subtract(BigInteger val)
+	* public BigInteger multiply(BigInteger val)
+	* public BigInteger divide(BigInteger val)
+	* public BigInteger[] divideAndRemainder(BigInteger val)
+
+(BigDecimal类的概述和方法使用)
+* A:BigDecimal的概述
+	* 由于在运算的时候，float类型和double很容易丢失精度，演示案例。
+	* 所以，为了能精确的表示、计算浮点数，Java提供了BigDecimal
+
+	* 不可变的、任意精度的有符号十进制数。
+* B:构造方法
+	* public BigDecimal(String val)
+* C:成员方法
+	* public BigDecimal add(BigDecimal augend)
+	* public BigDecimal subtract(BigDecimal subtrahend)
+	* public BigDecimal multiply(BigDecimal multiplicand)
+	* public BigDecimal divide(BigDecimal divisor)
+* D:案例演示
+	* BigDecimal类的构造方法和成员方法使用
+
+(Date类的概述和方法使用)(掌握)
+* A:Date类的概述
+	* 类 Date 表示特定的瞬间，精确到毫秒。 
+* B:构造方法
+	* public Date()
+	* public Date(long date)
+* C:成员方法
+	* public long getTime()
+	* public void setTime(long time)
+
+(SimpleDateFormat类实现日期和字符串的相互转换)(掌握)
+* A:DateFormat类的概述
+	* DateFormat 是日期/时间格式化子类的抽象类，它以与语言无关的方式格式化并解析日期或时间。是抽象类，所以使用其子类SimpleDateFormat
+* B:SimpleDateFormat构造方法
+	* public SimpleDateFormat()
+	* public SimpleDateFormat(String pattern)
+* C:成员方法
+	* public final String format(Date date)
+	* public Date parse(String source)
+
+
+(你来到这个世界多少天案例)(掌握)
+* A:案例演示
+	* 需求：算一下你来到这个世界多少天?
+
+(Calendar类的概述和获取日期的方法)(掌握)
+* A:Calendar类的概述
+	* Calendar 类是一个抽象类，它为特定瞬间与一组诸如 YEAR、MONTH、DAY_OF_MONTH、HOUR 等日历字段之间的转换提供了一些方法，并为操作日历字段（例如获得下星期的日期）提供了一些方法。
+* B:成员方法
+	* public static Calendar getInstance()
+	* public int get(int field)
+
+
+(Calendar类的add()和set()方法)(掌握)
+* A:成员方法
+	* public void add(int field,int amount)
+	* public final void set(int year,int month,int date)
+* B:案例演示
+	* Calendar类的成员方法使用
+
+(如何获取任意年份是平年还是闰年)(掌握)
+* A:案例演示
+	* 需求：键盘录入任意一个年份，判断该年是闰年还是平年
+  	/**
+	 * * A:案例演示
+	 * 需求：键盘录入任意一个年份，判断该年是闰年还是平年
+	 * Calendar c = Calendar.getInstance();
+	 * 
+	 * 分析:
+	 * 1,键盘录入年Scanner
+	 * 2,创建Calendar c = Calendar.getInstance();
+	 * 3,通过set方法设置为那一年的3月1日
+	 * 4,将日向前减去1
+	 * 5,判断日是多少天,如果是29天返回true否则返回false
+	 */
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("请输入年份,判断该年份是闰年还是平年:");
+		//int year = sc.nextInt();
+		
+		String line = sc.nextLine();				//录入数字字符串
+		int year = Integer.parseInt(line);			//将数字字符串转换成数字
+		boolean b = getYear(year);
+		System.out.println(b);
+	}
+
+	private static boolean getYear(int year) {
+		//2,创建Calendar c = Calendar.getInstance();
+		Calendar c = Calendar.getInstance();
+		//设置为那一年的3月1日
+		c.set(year, 2, 1);
+		//将日向前减去1
+		c.add(Calendar.DAY_OF_MONTH, -1);
+		//判断是否是29天
+		return c.get(Calendar.DAY_OF_MONTH) == 29;
+	}
